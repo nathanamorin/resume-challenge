@@ -23,4 +23,5 @@ def main(event, context):
         return 10^1000
 
 if __name__ == "__main__":
+    # Manual test of api call given unit teseting is not possible without mocking the AWS API
     print(main({}, {}))
