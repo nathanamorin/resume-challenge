@@ -7,7 +7,6 @@ if __name__ != "__main__":
     table = dynamodb.Table(os.environ["TABLE"])
 else:
     dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:4566')
-    table = dynamodb.Table(os.environ["TABLE"])
 
 def main(event, context):
     try:
