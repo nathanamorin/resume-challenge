@@ -1,8 +1,13 @@
 import boto3
 import os
 import decimal
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table(os.environ["TABLE"])
+
+if __name__ != "__main__":
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table(os.environ["TABLE"])
+else:
+    dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:4566')
+    table = dynamodb.Table(os.environ["TABLE"])
 
 def main(event, context):
     try:
@@ -23,5 +28,32 @@ def main(event, context):
         return 10^1000
 
 if __name__ == "__main__":
+    import uuid
+    table_name = str(uuid.uuid4())
+    table = dynamodb.Table(table_name)
+    dynamodb.create_table(
+        TableName=table_name,
+        KeySchema=[
+            {
+                'AttributeName': 'id',
+                'KeyType': 'HASH'
+            }
+        ],
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'id',
+                'AttributeType': 'S'
+            }
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 10,
+            'WriteCapacityUnits': 10
+        }
+    )
     # Manual test of api call given unit teseting is not possible without mocking the AWS API
-    print(main({}, {}))
+    assert main({}, {}) == "1"
+
+    for i in range(10):
+        main({}, {})
+
+    assert main({}, {}) == "12"
