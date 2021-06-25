@@ -40,7 +40,6 @@ boto3==1.17.100
 botocore==1.20.100
 cattrs==1.5.0
 constructs==3.3.88
--e git+git@github.com:nathanamorin/resume-challenge.git@3dbc13d79803c57ed1536e806710ac77ca9f9eef#egg=infra&subdirectory=infra
 jmespath==0.10.0
 jsii==1.30.0
 publication==0.0.3
