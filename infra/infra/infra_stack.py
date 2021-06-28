@@ -63,7 +63,6 @@ class InfraStack(cdk.Stack):
         oia = cloudfront.OriginAccessIdentity(self, "access")
         bucket.grant_read(oia)
 
-        print(api_gateway.url)
         cloudfront_dist = cloudfront.Distribution(self, "cloudfront",
             default_behavior=cloudfront.BehaviorOptions(
                 origin=origins.S3Origin(bucket=bucket, origin_access_identity=oia),
@@ -83,6 +82,10 @@ class InfraStack(cdk.Stack):
             }
         )
 
+        core.CfnOutput(self, "resume-cloudfront", 
+                        export_name="resume-cloudfront", 
+                        value=cloudfront_dist.distribution_id
+                    )
 
 
 

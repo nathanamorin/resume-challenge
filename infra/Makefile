@@ -18,4 +18,5 @@ setup:
 deploy:
 	. .venv/bin/activate; cdk diff && cdk deploy
 
-
+invalidate_cache:
+	aws cloudfront create-invalidation --distribution-id $$(aws cloudformation list-exports --query "Exports[?Name=='resume-cloudfront'].Value" --output text) --paths "/*"
